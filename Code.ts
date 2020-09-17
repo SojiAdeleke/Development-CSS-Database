@@ -3,8 +3,12 @@ const fillers = {
   seminar: {
     tls: [
       {
-        name: "Jeremiah",
-        email: "jcsamuel@umd.edu",
+        name: "SEMTL1",
+        email: "semtl1@umd.edu",
+      },
+      {
+        name: "SEMTL2",
+        email: "semtl2@umd.edu",
       },
     ],
     responsibilityName: "Seminar",
@@ -12,8 +16,12 @@ const fillers = {
   frontDesk: {
     tls: [
       {
-        name: "Revelin",
-        email: "rthomps8@umd.edu",
+        name: "FDTL1",
+        email: "fdtl1@umd.edu",
+      },
+      {
+        name: "FDTL2",
+        email: "fdtl2@umd.edu",
       },
     ],
     responsibilityName: "Front Desk",
@@ -21,34 +29,26 @@ const fillers = {
   studySession: {
     tls: [
       {
-        name: "Aaron",
-        email: "awrigh13@terpmail.umd.edu",
+        name: "SSTL1",
+        email: "sstl1@umd.edu",
       },
       {
-        name: "Andrew",
-        email: "ayerom21@terpmail.umd.edu",
-      },
-      {
-        name: "Jairo",
-        email: "jhuaylin@terpmail.umd.edu",
-      },
-      {
-        name: "Nene",
-        email: "nnarhmen@terpmail.umd.edu",
+        name: "SSTL2",
+        email: "sstl2@umd.edu",
       },
     ],
     responsibilityName: "Study Session",
   },
 };
 const presidentInfo = {
-  name: "Matteo Patzy",
-  email: "mpatzy@terpmail.umd.edu",
+  name: "President",
+  email: "pres@umd.edu",
 };
 const vicePresidentInfo = {
-  name: "Revelin Thompson",
-  email: "rthomps8@umd.edu",
+  name: "Vice President",
+  email: "vp@umd.edu",
 };
-const gaInfo = ["mlong128@umd.edu", "marcm97@umd.edu"];
+const gaInfo = ["ga1@umd.edu", "ga2@umd.edu"];
 const databaseAdmin = ["aolarinde@gmail.com", "iduncan@terpmail.umd.edu", "mtshumba@terpmail.umd.edu"]
 
 function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {

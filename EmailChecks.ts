@@ -3,7 +3,6 @@
 const toEmailWarning = [
     presidentInfo.email,
     vicePresidentInfo.email,
-    "aolarinde@gmail.com",
 ];
 
 type FunctionType = ({ responsibilityName, tls }: SheetResponsibilty) => void;
@@ -76,7 +75,7 @@ function emailFirstWarning({ responsibilityName, tls }: SheetResponsibilty): voi
     const tlEmails = tls.map((tl) => tl.email).join(",");
 
     Logger.log("Email sent to: " + tlNames + " for " + responsibilityName);
-    MailApp.sendEmail(
+    sendEmail(
         tlEmails,
         "[AUTOMATED EMAIL] Warning: " + responsibilityName + " not filled!",
         "This is an automated email.\n\n\n" +
@@ -104,7 +103,7 @@ function emailSecondWarning({ responsibilityName, tls }: SheetResponsibilty): vo
     );
     const toEmail = tlEmails.concat(toEmailWarning);
 
-    MailApp.sendEmail(
+    sendEmail(
         toEmail.join(),
         "[AUTOMATED EMAIL] Warning: " + responsibilityName + " not filled!",
         "This is an automated email.\n\n\n" +
@@ -128,7 +127,7 @@ function emailThirdWarning({ responsibilityName, tls }: SheetResponsibilty): voi
     );
     const toEmail = tlEmails.concat(toEmailWarning);
 
-    MailApp.sendEmail(
+    sendEmail(
         toEmail.join(),
         "[AUTOMATED EMAIL] Warning: " + responsibilityName + " not filled!",
         "This is an automated email.\n\n\n" +
@@ -141,4 +140,8 @@ function emailThirdWarning({ responsibilityName, tls }: SheetResponsibilty): voi
         tlEmails +
         " on Friday at 5pm and 9pm, and this is the third warning email.\n\n*IMPORTANT*\nIf this is a mistake, please text Anjola at (301) 254-8855."
     );
+}
+
+function sendEmail(toEmail: string, emailSubject: string, emailMsg: string): void {
+    Logger.log(toEmail + `were emailed this: ` + emailMsg)
 }
