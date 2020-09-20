@@ -36,7 +36,7 @@ The Development CSS Database is a testing code base for the real CSS Database ho
 ```bash
 npm install -g typescript
 npm install -S @types/google-apps-script
-npm install -S eslint @typescript-eslint/parser @typescript-eslint
+npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
 
   
