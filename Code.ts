@@ -64,6 +64,7 @@ function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
   else if (sheetName == "L5. RRF") editRRF(e);
   else if (sheetName == "L6. Tutor Report Log") editTutor(e);
 }
+
 function onFormSubmit(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
   const sheetName = e.range.getSheet().getName();
 

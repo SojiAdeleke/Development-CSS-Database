@@ -17,6 +17,7 @@ function applyNotFoundRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyFoundDateRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   ranges.forEach((range) => range.setNumberFormat("MM/dd/yyyy h:mm"));
   Logger.log(ranges.map(range => range.getNumberFormat()).join())
@@ -29,6 +30,7 @@ function applyFoundDateRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyExcusedRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("EX")
@@ -38,6 +40,7 @@ function applyExcusedRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyNArule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("N/A")
@@ -47,6 +50,7 @@ function applyNArule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyXRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("✘")
@@ -56,6 +60,7 @@ function applyXRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyLRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("L")
@@ -65,6 +70,7 @@ function applyLRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .setRanges(ranges)
     .build();
 }
+
 function applyCheckRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("✔")
@@ -84,13 +90,14 @@ var NUMBER_CHECK = {
 
 function applyNumberCheck(range: GoogleAppsScript.Spreadsheet.Range, type: number) {
 
+  const FIRST_INDEX = 0;
   const values = range.getValues();
-  const colorBackgrounds = new Array(scholarInfo.length);
-  const colorFonts = new Array(scholarInfo.length);
+  const colorBackgrounds: string[][] = new Array(scholarInfo.length) as Array<Array<string>>;
+  const colorFonts: string[][] = new Array(scholarInfo.length) as Array<Array<string>>;
 
   for (let row = 0; row < scholarInfo.length; row++) {
-    colorBackgrounds[row] = new Array(1);
-    colorFonts[row] = new Array(1);
+    colorBackgrounds[row] = [""];
+    colorFonts[row] = [""];
     const scholar = scholarInfo[row];
     var scholarReq;
 
@@ -102,15 +109,15 @@ function applyNumberCheck(range: GoogleAppsScript.Spreadsheet.Range, type: numbe
 
     Logger.log(scholarReq)
 
-    if (values[row][0] == 0 || values[row][0] == "") {
-      colorBackgrounds[row][0] = negativeColor.background;
-      colorFonts[row][0] = negativeColor.font;
-    } else if (scholarReq <= values[row][0]) {
-      colorBackgrounds[row][0] = positiveColor.background;
-      colorFonts[row][0] = positiveColor.font;
+    if (values[row][FIRST_INDEX] == 0 || values[row][FIRST_INDEX] == "") {
+      colorBackgrounds[row][FIRST_INDEX] = negativeColor.background;
+      colorFonts[row][FIRST_INDEX] = negativeColor.font;
+    } else if (scholarReq <= values[row][FIRST_INDEX]) {
+      colorBackgrounds[row][FIRST_INDEX] = positiveColor.background;
+      colorFonts[row][FIRST_INDEX] = positiveColor.font;
     } else {
-      colorBackgrounds[row][0] = neutralColor.background;
-      colorFonts[row][0] = neutralColor.font;
+      colorBackgrounds[row][FIRST_INDEX] = neutralColor.background;
+      colorFonts[row][FIRST_INDEX] = neutralColor.font;
     }
   }
   range
@@ -118,6 +125,7 @@ function applyNumberCheck(range: GoogleAppsScript.Spreadsheet.Range, type: numbe
     .setFontColors(colorFonts)
     .setFontWeight("bold");
 }
+
 //contains week information from WAHF to WPL
 function applyIAPFormatting(iapRange: GoogleAppsScript.Spreadsheet.Range) {
   const rules = databaseSheet.getConditionalFormatRules();

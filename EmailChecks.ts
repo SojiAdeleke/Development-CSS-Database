@@ -11,9 +11,11 @@ function firstWarningCheck() {
     updateFormulas();
     checkBlanks(emailFirstWarning);
 }
+
 function secondWarningCheck() {
     checkBlanks(emailSecondWarning);
 }
+
 function thirdWarningCheck() {
     checkBlanks(emailThirdWarning);
 }
@@ -113,7 +115,7 @@ function emailSecondWarning({ responsibilityName, tls }: SheetResponsibilty): vo
         ". As a reminder, Team Leaders must fill out " +
         responsibilityName +
         " by Friday at 5pm! TL(s) were emailed at " +
-        tlEmails +
+        tlEmails.join() +
         " at 5pm, and this is the second warning email.\n\n\n*IMPORTANT*\nIf this is a mistake, please text Anjola at (301) 254-8855."
     );
 }
@@ -137,11 +139,7 @@ function emailThirdWarning({ responsibilityName, tls }: SheetResponsibilty): voi
         ". As a reminder, Team Leaders must fill out [" +
         responsibilityName +
         "] by Friday at 5pm! TL(s) was emailed at " +
-        tlEmails +
+        tlEmails.join() +
         " on Friday at 5pm and 9pm, and this is the third warning email.\n\n*IMPORTANT*\nIf this is a mistake, please text Anjola at (301) 254-8855."
     );
-}
-
-function sendEmail(toEmail: string, emailSubject: string, emailMsg: string): void {
-    Logger.log(toEmail + `were emailed this: ` + emailMsg)
 }

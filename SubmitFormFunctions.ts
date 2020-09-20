@@ -10,6 +10,7 @@ function submitWAHF(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     //set last name
     setCellFormula(e.range.getSheet(), e.range.getRow(), 2, name[1]);
 }
+
 function submitMCF(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     var menteeUid = e.values[1], mentorUid = e.values[2];
     var menteeName = getNameFormula(menteeUid), mentorName = getNameFormula(mentorUid);
@@ -23,6 +24,7 @@ function submitMCF(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     //set mentee last name
     setCellFormula(e.range.getSheet(), e.range.getRow(), 4, menteeName[1]);
 }
+
 function submitWPL(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     var uid = e.values[1];
     var name = getNameFormula(uid);
@@ -32,12 +34,15 @@ function submitWPL(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     //set last name
     setCellFormula(e.range.getSheet(), e.range.getRow(), 2, name[1]);
 }
+
 function submitTraffic(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     Logger.log(e.range.getSheet().getName());
 }
+
 function submitRRF(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     Logger.log(e.range.getSheet().getName());
 }
+
 function submitTutor(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     var tutorUid = e.values[2], studentUid = e.values[4];
     var tutorName = getTutorNameFormula(tutorUid), studentName = getNameFormula(studentUid);
@@ -60,6 +65,7 @@ function submitTutor(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
         tutorUid +
         ',TutoringDatabase!$A$2:$C$11,3,FALSE),"Hours not input")');
 }
+
 function submitZoom(e: GoogleAppsScript.Events.SheetsOnFormSubmit) {
     Logger.log(e.values);
     var studentUid = e.values[2];

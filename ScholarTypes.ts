@@ -64,6 +64,7 @@ function getScholarInformation(scholar: string[]): Scholar {
         status: getStatus(scholar[10], scholar[5])
     };
 }
+
 function getStatus(cohort: string, role: string): number {
     if (startOfSemester.year - parseInt(cohort) >= 2 && role == "Scholar") {
         return SCHOLAR_TYPES.UPPER;

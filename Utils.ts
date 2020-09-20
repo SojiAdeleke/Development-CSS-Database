@@ -292,3 +292,7 @@ function initScholarsReq() {
     .getRange(firstWeekDatabase.row, 6, scholarReq.length, 1)
     .setDataValidation(roleRule);
 }
+
+function sendError(error: Error) {
+  sendEmail(databaseAdmin.join(), `Database Error: ${error.name}`, error.message)
+}

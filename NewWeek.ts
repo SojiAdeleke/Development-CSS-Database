@@ -39,20 +39,28 @@ function createWeek(weekNum: number) {
     "WeekTemplate"
   );
 
+  if (templateRange == null) {
+    const templateError = new Error("Wrong Template Name!")
+
+    sendError(templateError)
+    throw templateError;
+  }
+
   templateRange.copyTo(weekInfo);
   //set background color
   weekInfo.setBackground(
     isOdd ? weekTheme.odd.backgroundColor : weekTheme.even.backgroundColor
   );
   //set week and date info
-  databaseSheet.getRange(1, startOfNewWeekCol).setValue("WEEK " + weekNum);
+  databaseSheet.getRange(1, startOfNewWeekCol).setValue(`WEEK ${weekNum}`);
   databaseSheet
     .getRange(2, startOfNewWeekCol + 2)
-    .setFormula("=TEXT(K1+" + (weekNum - 1) * 7 + ',"YYYY-MM-DD")');
+    .setFormula(`=TEXT(K1+" + ${(weekNum - 1) * 7} + ',"YYYY-MM-DD")`);
   databaseSheet
     .getRange(2, startOfNewWeekCol + 6)
-    .setValue("=TEXT(K1+" + ((weekNum - 1) * 7 + 6) + ',"YYYY-MM-DD")');
+    .setValue(`=TEXT(K1+" + (${(weekNum - 1) * 7 + 6} + ',"YYYY-MM-DD")`);
 }
+
 function setWeekReqs(weekNum: number) {
   const weekReqs = new Array(scholarInfo.length);
 
@@ -80,6 +88,7 @@ function setWeekReqs(weekNum: number) {
     )
     .setValues(weekReqs);
 }
+
 function protectWeek(weekNum: number) {
   const getColumn = function (column: number) {
     return databaseSheet.getRange(
