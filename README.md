@@ -32,13 +32,23 @@ The Development CSS Database is a testing code base for the real CSS Database ho
 2. Type the following commands into the termincal (MACOS)
 
   
-
 ```bash
 npm install -g typescript
 npm install -S @types/google-apps-script
-npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin 
 ```
 
+3. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+4. Go to VSCode and press `cmd-shift-P` and type `Open Settings (JSON)`. This should open a file called `settings.json`. In the json, add this:
+
+```json
+...
+  "editor.codeActionsOnSave": {
+	"source.fixAll.eslint": true
+	},
+...
+```
   
 
 ## Development Setup
