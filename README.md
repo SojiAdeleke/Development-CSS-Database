@@ -35,7 +35,7 @@ The Development CSS Database is a testing code base for the real CSS Database ho
 ```bash
 npm install -g typescript
 npm install -S @types/google-apps-script
-npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin 
+npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier
 ```
 
 3. Download the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
