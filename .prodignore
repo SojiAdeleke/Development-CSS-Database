@@ -1,0 +1,13 @@
+.clasp.json
+.claspignore
+.gitignore
+.eslintrc
+
+database
+LICENSE
+move_to_prod
+README.md
+TestFunctions.ts
+tsconfig.json
+
+test

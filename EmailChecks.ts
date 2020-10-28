@@ -1,67 +1,4 @@
 // Compiled using ts2gas 3.6.3 (TypeScript 3.9.7)
-
-const toEmailWarning = [
-    presidentInfo.email,
-    vicePresidentInfo.email,
-];
-
-type FunctionType = ({ responsibilityName, tls }: SheetResponsibilty) => void;
-
-function firstWarningCheck() {
-    updateFormulas();
-    checkBlanks(emailFirstWarning);
-}
-
-function secondWarningCheck() {
-    checkBlanks(emailSecondWarning);
-}
-
-function thirdWarningCheck() {
-    checkBlanks(emailThirdWarning);
-}
-
-function checkBlanks(warningFunction: FunctionType) {
-    const weekNum = 1;
-
-    let foundBlankSeminar = false;
-    let foundBlankStudyS = false;
-    let foundBlankFrontD = false;
-    const seminar = getColumn(weekNum, 1)
-    const studySession = getColumn(weekNum, 2)
-    const frontDesk = getColumn(weekNum, 3)
-
-    const seminarArray = seminar.getValues();
-    const studyArray = studySession.getValues();
-    const frontArray = frontDesk.getValues();
-
-    for (
-        let row = 0;
-        row < seminarArray.length &&
-        !(foundBlankFrontD && foundBlankSeminar && foundBlankStudyS);
-        row++
-    ) {
-        if (seminarArray[row][0] == "" && !foundBlankSeminar) {
-            warningFunction(fillers.seminar);
-            foundBlankSeminar = true;
-        }
-        if (studyArray[row][0] == "" && !foundBlankStudyS) {
-            warningFunction(fillers.studySession);
-            Logger.log(`Study Session Empty at: ${scholarInfo[row].uid}`)
-            foundBlankStudyS = true;
-        }
-        console.log(frontArray[row][0])
-        if (frontArray[row][0] == "" && !foundBlankFrontD) {
-            warningFunction(fillers.frontDesk);
-            Logger.log(`Front Desk Empty at: ${scholarInfo[row].uid}`)
-            foundBlankFrontD = true;
-        }
-    }
-    if (!foundBlankStudyS)
-        applyNumberCheck(studySession, NUMBER_CHECK.STUDY_SESSION);
-    if (!foundBlankFrontD)
-        applyNumberCheck(frontDesk, NUMBER_CHECK.FRONT_DESK);
-}
-
 interface TLResponsibility {
     name: string;
     email: string;
@@ -70,6 +7,72 @@ interface TLResponsibility {
 interface SheetResponsibilty {
     responsibilityName: string;
     tls: TLResponsibility[];
+}
+
+const toEmailWarning = [
+    presidentInfo.email,
+    vicePresidentInfo.email,
+];
+
+type WarningFunctionType = ({ responsibilityName, tls }: SheetResponsibilty) => void;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function firstWarningCheck(): void {
+    updateFormulas();
+    checkBlanks(emailFirstWarning);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function secondWarningCheck(): void {
+    checkBlanks(emailSecondWarning);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function thirdWarningCheck(): void {
+    checkBlanks(emailThirdWarning);
+}
+
+function checkBlanks(warningFunction: WarningFunctionType): void {
+    const weekNum = getWeekNum()
+
+    let foundBlankSeminar = false;
+    let foundBlankStudyS = false;
+    let foundBlankFrontD = false;
+    const seminar = getColumn(weekNum, WEEK_INFO.SEMINAR)
+    const studySession = getColumn(weekNum, WEEK_INFO.STUDY_SESSION)
+    const frontDesk = getColumn(weekNum, WEEK_INFO.FRONT_DESK)
+
+    const seminarArray = seminar.getValues();
+    const studyArray = studySession.getValues();
+    const frontArray = frontDesk.getValues();
+    const firstEntry = 0;
+
+    for (
+        let row = 0;
+        row < seminarArray.length &&
+        !(foundBlankFrontD && foundBlankSeminar && foundBlankStudyS);
+        row++
+    ) {
+        if (seminarArray[row][firstEntry] == "" && !foundBlankSeminar) {
+            warningFunction(seminarFiller);
+            foundBlankSeminar = true;
+        }
+        if (studyArray[row][firstEntry] == "" && !foundBlankStudyS) {
+            warningFunction(studySessionFiller);
+            Logger.log(`Study Session Empty at: ${scholarInfo[row].uid}`)
+            foundBlankStudyS = true;
+        }
+        console.log(frontArray[row][firstEntry])
+        if (frontArray[row][firstEntry] == "" && !foundBlankFrontD) {
+            warningFunction(frontDeskFiller);
+            Logger.log(`Front Desk Empty at: ${scholarInfo[row].uid}`)
+            foundBlankFrontD = true;
+        }
+    }
+    if (!foundBlankStudyS)
+        applyNumberCheck(studySession, WEEK_INFO.STUDY_SESSION);
+    if (!foundBlankFrontD)
+        applyNumberCheck(frontDesk, WEEK_INFO.FRONT_DESK);
 }
 
 function emailFirstWarning({ responsibilityName, tls }: SheetResponsibilty): void {
