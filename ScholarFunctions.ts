@@ -18,20 +18,28 @@ const STANDARD_LEADERSHIP_REQ = {
     frontDesk: 180
 };
 const STANDARD_UPPER_CLASSMEN_REQ = {
-    types: ["Scholar"],
+    types: [
+        "Scholar"
+    ],
     studySession: "-",
     frontDesk: "-"
 };
 const STANDARD_SOPHOMORE_REQ = {
-    types: ["Scholar"],
+    types: [
+        "Scholar"
+    ],
     studySession: 180,
     frontDesk: 0
 };
 const STANDARD_FRESHMAN_REQ = {
-    types: ["Scholar"],
+    types: [
+        "Scholar"
+    ],
     studySession: 300,
     frontDesk: 0
 };
+
+const scholarInfo = initScholarInfo();
 
 interface Scholar {
     uid: string;
@@ -78,4 +86,19 @@ function getStatus(cohort: string, role: string): number {
     else {
         return SCHOLAR_TYPES.FRESHMAN;
     }
+}
+
+function initScholarInfo(): Scholar[] {
+    const values = databaseSheet
+        .getRange(
+            firstWeekDatabase.row,
+            1,
+            lastScholarRow - firstWeekDatabase.row + 1,
+            11
+        ).getValues() as string[][];
+    const allInfo = new Array(values.length) as [Scholar];
+
+    for (let scholarRow = 0; scholarRow < allInfo.length; scholarRow++)
+        allInfo[scholarRow] = getScholarInformation(values[scholarRow]);
+    return allInfo;
 }

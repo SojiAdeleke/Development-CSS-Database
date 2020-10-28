@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 // Compiled using ts2gas 3.6.3 (TypeScript 3.9.7)
 const blackColor = "#000000";
 const negativeColor = { background: "#f4c7c3", font: "#cc0000" };
@@ -8,7 +7,7 @@ const grayColor = { background: "#cccccc", font: blackColor };
 const lateColor = { background: "#fce8b2", font: "#b45f06" };
 const excusedColor = { background: "#cfe2f3", font: blackColor };
 
-function applyNotFoundRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyNotFoundRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("Not found")
     .setBold(true)
@@ -18,9 +17,9 @@ function applyNotFoundRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyFoundDateRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyFoundDateRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   ranges.forEach((range) => range.setNumberFormat("MM/dd/yyyy h:mm"));
-  Logger.log(ranges.map(range => range.getNumberFormat()).join())
+  Logger.log(ranges.map((range) => range.getNumberFormat()).join());
 
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextContains(":")
@@ -31,7 +30,7 @@ function applyFoundDateRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyExcusedRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyExcusedRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("EX")
     .setBold(true)
@@ -41,7 +40,7 @@ function applyExcusedRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyNArule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyNArule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("N/A")
     .setBold(true)
@@ -51,7 +50,7 @@ function applyNArule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyXRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyXRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("✘")
     .setBold(true)
@@ -61,7 +60,7 @@ function applyXRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyLRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyLRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("L")
     .setBold(true)
@@ -71,7 +70,7 @@ function applyLRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-function applyCheckRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
+function applyCheckRule(ranges: GoogleAppsScript.Spreadsheet.Range[]): GoogleAppsScript.Spreadsheet.ConditionalFormatRule {
   return SpreadsheetApp.newConditionalFormatRule()
     .whenTextEqualTo("✔")
     .setBold(true)
@@ -81,33 +80,37 @@ function applyCheckRule(ranges: GoogleAppsScript.Spreadsheet.Range[]) {
     .build();
 }
 
-var NUMBER_CHECK = {
-  STUDY_SESSION: 3,
-  FRONT_DESK: 4,
-  ZOOM: 5,
-  MENTEE: 8,
-};
+function applyNumberCheck(
+  range: GoogleAppsScript.Spreadsheet.Range,
+  type: WEEK_INFO
+): void {
 
-function applyNumberCheck(range: GoogleAppsScript.Spreadsheet.Range, type: number) {
+  if (type != WEEK_INFO.STUDY_SESSION && type != WEEK_INFO.FRONT_DESK && type != WEEK_INFO.ZOOM && type != WEEK_INFO.MCF) {
+    sendError(new Error("Sent in invalid week info"))
+    return;
+  }
 
   const FIRST_INDEX = 0;
   const values = range.getValues();
-  const colorBackgrounds: string[][] = new Array(scholarInfo.length) as Array<Array<string>>;
-  const colorFonts: string[][] = new Array(scholarInfo.length) as Array<Array<string>>;
+  const colorBackgrounds: string[][] = new Array(scholarInfo.length) as [string[]];
+  const colorFonts: string[][] = new Array(scholarInfo.length) as [string[]];
 
   for (let row = 0; row < scholarInfo.length; row++) {
-    colorBackgrounds[row] = [""];
-    colorFonts[row] = [""];
+    colorBackgrounds[row] = [
+      ""
+    ];
+    colorFonts[row] = [
+      ""
+    ];
     const scholar = scholarInfo[row];
-    var scholarReq;
+    const minimumZoomVisits = 2;
+    let scholarReq = null;
 
-    if (type == NUMBER_CHECK.STUDY_SESSION)
+    if (type == WEEK_INFO.STUDY_SESSION)
       scholarReq = scholar.studySessionReq;
-    else if (type == NUMBER_CHECK.FRONT_DESK) scholarReq = scholar.frontDeskReq;
-    else if (type == NUMBER_CHECK.ZOOM) scholarReq = 2;
+    else if (type == WEEK_INFO.FRONT_DESK) scholarReq = scholar.frontDeskReq;
+    else if (type == WEEK_INFO.ZOOM) scholarReq = minimumZoomVisits;
     else scholarReq = scholar.menteeNum;
-
-    Logger.log(scholarReq)
 
     if (values[row][FIRST_INDEX] == 0 || values[row][FIRST_INDEX] == "") {
       colorBackgrounds[row][FIRST_INDEX] = negativeColor.background;
@@ -127,32 +130,53 @@ function applyNumberCheck(range: GoogleAppsScript.Spreadsheet.Range, type: numbe
 }
 
 //contains week information from WAHF to WPL
-function applyIAPFormatting(iapRange: GoogleAppsScript.Spreadsheet.Range) {
+function applyIAPFormatting(iapRange: GoogleAppsScript.Spreadsheet.Range): void {
   const rules = databaseSheet.getConditionalFormatRules();
 
   rules.push(
-    applyCheckRule([iapRange]),
-    applyExcusedRule([iapRange]),
-    applyXRule([iapRange])
+    applyCheckRule([
+      iapRange
+    ]),
+    applyExcusedRule([
+      iapRange
+    ]),
+    applyXRule([
+      iapRange
+    ])
   );
   databaseSheet.setConditionalFormatRules(rules);
 }
 
-function applyWeekFormatting(weekNum: number) {
+enum WEEK_INFO {
+  WAHF = 0,
+  SEMINAR = 1,
+  STUDY_SESSION = 2,
+  FRONT_DESK = 3,
+  ZOOM = 4,
+  TL_MEETING = 5,
+  GA_MEETING = 6,
+  MCF = 7,
+  WPL = 8
+}
 
-  const wahfRange = getColumn(weekNum, 0),
-    semRange = getColumn(weekNum, 1),
-    ssRange = getColumn(weekNum, 2),
-    fdRange = getColumn(weekNum, 3),
-    zoomRange = getColumn(weekNum, 4),
-    tlmRange = getColumn(weekNum, 5),
-    gamRange = getColumn(weekNum, 6),
-    mcfRange = getColumn(weekNum, 7),
-    wplRange = getColumn(weekNum, 8);
+function applyWeekFormatting(weekNum: number): void {
+  const wahfRange = getColumn(weekNum, WEEK_INFO.WAHF),
+    semRange = getColumn(weekNum, WEEK_INFO.SEMINAR),
+    ssRange = getColumn(weekNum, WEEK_INFO.STUDY_SESSION),
+    fdRange = getColumn(weekNum, WEEK_INFO.FRONT_DESK),
+    zoomRange = getColumn(weekNum, WEEK_INFO.ZOOM),
+    tlmRange = getColumn(weekNum, WEEK_INFO.TL_MEETING),
+    gamRange = getColumn(weekNum, WEEK_INFO.GA_MEETING),
+    mcfRange = getColumn(weekNum, WEEK_INFO.MCF),
+    wplRange = getColumn(weekNum, WEEK_INFO.WPL);
   const rules = databaseSheet.getConditionalFormatRules();
 
   rules.push(
-    applyCheckRule([semRange, tlmRange, gamRange]),
+    applyCheckRule([
+      semRange,
+      tlmRange,
+      gamRange
+    ]),
     applyExcusedRule([
       wahfRange,
       semRange,
@@ -163,7 +187,10 @@ function applyWeekFormatting(weekNum: number) {
       mcfRange,
       wplRange,
     ]),
-    applyFoundDateRule([wahfRange, wplRange]),
+    applyFoundDateRule([
+      wahfRange,
+      wplRange
+    ]),
     applyNArule([
       wahfRange,
       semRange,
@@ -175,33 +202,55 @@ function applyWeekFormatting(weekNum: number) {
       mcfRange,
       wplRange,
     ]),
-    applyNotFoundRule([wahfRange, wplRange]),
-    applyXRule([semRange, tlmRange, gamRange]),
-    applyLRule([semRange])
+    applyNotFoundRule([
+      wahfRange,
+      wplRange
+    ]),
+    applyXRule([
+      semRange,
+      tlmRange,
+      gamRange
+    ]),
+    applyLRule([
+      semRange
+    ])
   );
   databaseSheet.setConditionalFormatRules(rules);
 
   const gaPickRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(["✘", "✔", "EX", "N/A"])
+    .requireValueInList([
+      "✘",
+      "✔",
+      "EX",
+      "N/A"
+    ])
     .build();
   const semPickRule = SpreadsheetApp.newDataValidation()
-    .requireValueInList(["✘", "✔", "L", "EX", "N/A"])
+    .requireValueInList([
+      "✘",
+      "✔",
+      "L",
+      "EX",
+      "N/A"
+    ])
     .build();
 
   semRange.setDataValidation(semPickRule);
   gamRange.setDataValidation(gaPickRule);
 
-  zoomRange.setNumberFormat("0")
-  mcfRange.setNumberFormat("0")
-  fdRange.setNumberFormat("0")
-  ssRange.setNumberFormat("0")
+  zoomRange.setNumberFormat("0");
+  mcfRange.setNumberFormat("0");
+  fdRange.setNumberFormat("0");
+  ssRange.setNumberFormat("0");
 }
 
-function getColumn(weekNum: number, column: number) {
+function getColumn(weekNum: number, column: number): GoogleAppsScript.Spreadsheet.Range {
+  const single_column = 1;
+
   return databaseSheet.getRange(
     firstWeekDatabase.row,
     firstWeekDatabase.column + weekTheme.weekLength * (weekNum - 1) + column,
     scholarInfo.length,
-    1
+    single_column
   );
 }

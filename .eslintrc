@@ -27,10 +27,9 @@
         "next": ["const", "let", "var"]
       }
     ],
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": "off",
     "no-var": "error",
     "@typescript-eslint/no-unsafe-call": "error",
-    "@typescript-eslint/no-magic-numbers": ["error", { "ignoreEnums": true }],
     "@typescript-eslint/no-explicit-any": "error",
     "array-element-newline": ["error", "always"],
     "array-bracket-newline": ["error", "always"]
