@@ -39,8 +39,6 @@ const STANDARD_FRESHMAN_REQ = {
     frontDesk: 0
 };
 
-const scholarInfo = initScholarInfo();
-
 interface Scholar {
     uid: string;
     lastName: string;
@@ -86,19 +84,4 @@ function getStatus(cohort: string, role: string): number {
     else {
         return SCHOLAR_TYPES.FRESHMAN;
     }
-}
-
-function initScholarInfo(): Scholar[] {
-    const values = databaseSheet
-        .getRange(
-            firstWeekDatabase.row,
-            1,
-            lastScholarRow - firstWeekDatabase.row + 1,
-            11
-        ).getValues() as string[][];
-    const allInfo = new Array(values.length) as [Scholar];
-
-    for (let scholarRow = 0; scholarRow < allInfo.length; scholarRow++)
-        allInfo[scholarRow] = getScholarInformation(values[scholarRow]);
-    return allInfo;
 }

@@ -18,6 +18,22 @@ const startOfSemesterFormula =
 const databaseSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Database") || SpreadsheetApp.getActiveSpreadsheet().getSheets()[1];
 const lastScholarRow = databaseSheet.getLastRow();
 const firstWeekDatabase = { row: 4, column: 13 };
+const scholarInfo = initScholarInfo();
+
+function initScholarInfo(): Scholar[] {
+  const values = databaseSheet
+    .getRange(
+      firstWeekDatabase.row,
+      1,
+      lastScholarRow - firstWeekDatabase.row + 1,
+      11
+    ).getValues() as string[][];
+  const allInfo = new Array(values.length) as [Scholar];
+
+  for (let scholarRow = 0; scholarRow < allInfo.length; scholarRow++)
+    allInfo[scholarRow] = getScholarInformation(values[scholarRow]);
+  return allInfo;
+}
 
 function revertHoldCell(): void {
   holdCell.setValue("");
@@ -87,4 +103,15 @@ function getWeekNum(): number { return (databaseSheet.getLastColumn() - 12) / 9 
 
 function sendError(error: Error): void {
   sendEmail(databaseAdmin.join(), `Database Error: ${error.name}`, error.message)
+}
+
+function getColumn(weekNum: number, column: number): GoogleAppsScript.Spreadsheet.Range {
+  const single_column = 1;
+
+  return databaseSheet.getRange(
+    firstWeekDatabase.row,
+    firstWeekDatabase.column + weekTheme.weekLength * (weekNum - 1) + column,
+    scholarInfo.length,
+    single_column
+  );
 }

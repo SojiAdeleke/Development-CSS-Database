@@ -95,8 +95,6 @@ function setWeekFormulas(weekNum: number): void {
     ]
 
     SpreadsheetApp.flush();
-
-    ranges.forEach(range => range.setValues(range.getValues()))
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -175,10 +173,10 @@ function createWeek(weekNum: number): void {
     databaseSheet.getRange(1, startOfNewWeekCol).setValue(`WEEK ${weekNum}`);
     databaseSheet
         .getRange(2, startOfNewWeekCol + 2)
-        .setFormula(`=TEXT(K1+" + ${(weekNum - 1) * 7} + ',"YYYY-MM-DD")`);
+        .setFormula(`=TEXT(K1+${(weekNum - 1) * 7},"YYYY-MM-DD")`);
     databaseSheet
         .getRange(2, startOfNewWeekCol + 6)
-        .setValue(`=TEXT(K1+" + (${(weekNum - 1) * 7 + 6} + ',"YYYY-MM-DD")`);
+        .setValue(`=TEXT(K1+${(weekNum - 1) * 7 + 6},"YYYY-MM-DD")`);
 }
 
 function setWeekReqs(weekNum: number): void {

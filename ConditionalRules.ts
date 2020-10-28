@@ -243,14 +243,3 @@ function applyWeekFormatting(weekNum: number): void {
   fdRange.setNumberFormat("0");
   ssRange.setNumberFormat("0");
 }
-
-function getColumn(weekNum: number, column: number): GoogleAppsScript.Spreadsheet.Range {
-  const single_column = 1;
-
-  return databaseSheet.getRange(
-    firstWeekDatabase.row,
-    firstWeekDatabase.column + weekTheme.weekLength * (weekNum - 1) + column,
-    scholarInfo.length,
-    single_column
-  );
-}

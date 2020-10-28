@@ -42,9 +42,9 @@ function checkBlanks(warningFunction: WarningFunctionType): void {
     const studySession = getColumn(weekNum, WEEK_INFO.STUDY_SESSION)
     const frontDesk = getColumn(weekNum, WEEK_INFO.FRONT_DESK)
 
-    const seminarArray = seminar.getValues();
-    const studyArray = studySession.getValues();
-    const frontArray = frontDesk.getValues();
+    const seminarArray = seminar.getValues() as string[][];
+    const studyArray = studySession.getValues() as string[][];
+    const frontArray = frontDesk.getValues() as string[][];
     const firstEntry = 0;
 
     for (
@@ -69,10 +69,6 @@ function checkBlanks(warningFunction: WarningFunctionType): void {
             foundBlankFrontD = true;
         }
     }
-    if (!foundBlankStudyS)
-        applyNumberCheck(studySession, WEEK_INFO.STUDY_SESSION);
-    if (!foundBlankFrontD)
-        applyNumberCheck(frontDesk, WEEK_INFO.FRONT_DESK);
 }
 
 function emailFirstWarning({ responsibilityName, tls }: SheetResponsibilty): void {
