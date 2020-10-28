@@ -45,7 +45,7 @@ interface Scholar {
     studySessionReq: string;
     menteeNum: string;
     cohort: string;
-    status: number;
+    iapStatus: number;
 }
 
 function getScholarInformation(scholar: string[]): Scholar {
@@ -61,7 +61,7 @@ function getScholarInformation(scholar: string[]): Scholar {
         studySessionReq: scholar[8],
         menteeNum: scholar[9],
         cohort: scholar[10],
-        status: getStatus(scholar[10], scholar[5])
+        iapStatus: getStatus(scholar[10], scholar[5])
     };
 }
 

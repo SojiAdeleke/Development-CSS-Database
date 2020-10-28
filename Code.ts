@@ -51,7 +51,7 @@ const vicePresidentInfo = {
 const gaInfo = ["ga1@umd.edu", "ga2@umd.edu"];
 const databaseAdmin = ["aolarinde@gmail.com", "iduncan@terpmail.umd.edu", "mtshumba@terpmail.umd.edu"]
 
-function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) {
+function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit) { // editing for isaiah
   const sheetName = e.source.getActiveSheet().getName();
 
   Logger.log(sheetName);
