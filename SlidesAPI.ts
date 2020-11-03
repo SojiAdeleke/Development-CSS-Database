@@ -54,7 +54,7 @@
           console.log(match[1]);
           return IAP_STATUS.complete;//true because there was text that matched, meaning that the scholar's classes were filled for the fall semester
         }
-        console.log("IAP not completed")
+        console.log("IAP not completed");
         return IAP_STATUS.incomplete;
       }
 
@@ -71,5 +71,5 @@
   }
 
   function main(){
-    checkIAP('2019', 'Joel Black Jr')
+    checkIAP('2019', 'Joel Black Jr');
   }
