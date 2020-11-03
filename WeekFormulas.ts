@@ -203,6 +203,28 @@ function protectWeek(weekNum: number): void {
         wplProtection = getColumn(weekNum, 8).protect().setDescription("WPL PROTECTION");
     const sheetEditors = wahfProtection.getEditors();
 
+    const proctectedSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Protection");
+    const procDesk = proctectedSheet?.getRange(1, 1, 1, 4).getValues() as string[][];
+    const procStudy = proctectedSheet?.getRange(2, 2, 1, 4).getValues() as string[][];
+    const procSeminar = proctectedSheet?.getRange(3, 3, 1, 4).getValues() as string[][];
+    const procDbase = proctectedSheet?.getRange(4, 4, 1, 4).getValues() as string[][];
+    
+
+    procDesk.forEach(function(value){
+        console.log(value);
+    });
+    procStudy.forEach(function(value){
+        console.log(value);
+    });
+    procSeminar.forEach(function(value){
+        console.log(value);
+    });
+    procDbase.forEach(function(value){
+        console.log(value);
+    });
+
+
+
     wahfProtection.removeEditors(sheetEditors).addEditors(databaseAdmin);
     semProtection
         .removeEditors(sheetEditors)
