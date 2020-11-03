@@ -7,14 +7,7 @@ const startOfSemester = {
   day: 31,
   year: 2020,
 };
-const startOfSemesterFormula =
-  "DATE(" +
-  startOfSemester.year +
-  "," +
-  startOfSemester.month +
-  "," +
-  startOfSemester.day +
-  ")";
+const startOfSemesterFormula = `DATE(${startOfSemester.year},${startOfSemester.month},${startOfSemester.day})`;
 const databaseSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Database") || SpreadsheetApp.getActiveSpreadsheet().getSheets()[1];
 const lastScholarRow = databaseSheet.getLastRow();
 const firstWeekDatabase = { row: 4, column: 13 };
@@ -38,9 +31,7 @@ function initScholarInfo(): Scholar[] {
 function revertHoldCell(): void {
   holdCell.setValue("");
 }
-//returns [lastName, firstName]
 
-//sets a call's formula
 function setCellFormula(sheet: GoogleAppsScript.Spreadsheet.Sheet, row: number, column: number, formula: string): void {
   const cell = sheet.getRange(row, column);
 
@@ -67,16 +58,8 @@ function keepValues(range: GoogleAppsScript.Spreadsheet.Range): void {
 
 function getNameFormula(uid: string): string[] {
   return [
-    "=IFERROR(VLOOKUP(" +
-    uid +
-    ",Database!$A$4:$K$" +
-    lastScholarRow +
-    ',2,FALSE),"Unknown")',
-    "=IFERROR(VLOOKUP(" +
-    uid +
-    ",Database!$A$4:$K$" +
-    lastScholarRow +
-    ',3,FALSE),"Unknown")',
+    `=IFERROR(VLOOKUP(${uid},Database!$A$4:$K$${lastScholarRow},2,FALSE),"Unknown")`,
+    `=IFERROR(VLOOKUP(${uid},Database!$A$4:$K$${lastScholarRow},3,FALSE),"Unknown")`,
   ];
 }
 
@@ -90,12 +73,7 @@ function getTutorNameFormula(uid: string): string {
   }
   else
     return (
-      "=IFERROR(VLOOKUP(" +
-      uid +
-      ",TutoringDatabase!$A$2:$C$" +
-      tutoringDatabase
-        .getLastRow() +
-      ',2=,FALSE),"Hours not input")'
+      `=IFERROR(VLOOKUP(${uid},TutoringDatabase!$A$2:$C$${tutoringDatabase.getLastRow()} ,2,FALSE),"Hours not input")`
     );
 }
 

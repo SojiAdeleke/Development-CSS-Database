@@ -21,35 +21,9 @@ function setWeekFormulas(weekNum: number): void {
         const scholar = scholarInfo[row];
 
         //WAHF
-        wahfFormulas[row][0] =
-            "=IF(OR(" +
-            scholar.cohort +
-            " > " +
-            (startOfSemester.year - 2) +
-            ', "' +
-            scholar.role +
-            '" <> "Scholar"), IFERROR(QUERY(\'L1. WAHF\'!$C$3:$D$1835, "SELECT C WHERE C >= DATE \'' +
-            startWeekDate +
-            "' AND C < DATE '" +
-            endWeekDate +
-            "' AND D CONTAINS '" +
-            scholar.uid +
-            '\' LIMIT 1"), "Not found"), "N/A")';
+        wahfFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${(startOfSemester.year - 2)}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('L1. WAHF'!$C$3:$D$1835, "SELECT C WHERE C >= DATE '${startWeekDate}' AND C < DATE '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LIMIT 1"), "Not found"), "N/A")`;
         //ZOOM
-        zoomFormulas[row][0] =
-            "=IF(OR(" +
-            scholar.cohort +
-            " > " +
-            (startOfSemester.year - 2) +
-            ', "' +
-            scholar.role +
-            '" <> "Scholar"), IFERROR(QUERY(\'Zoom Room Sign-In\'!$C$3:$D$1835, "SELECT COUNT(D) WHERE C >= DATE \'' +
-            startWeekDate +
-            "' AND C < DATE '" +
-            endWeekDate +
-            "' AND D CONTAINS '" +
-            scholar.uid +
-            "' LABEL COUNT(D) ''\",0), 0), \"N/A\")";
+        zoomFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${(startOfSemester.year - 2)}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('Zoom Room Sign-In'!$C$3:$D$1835, "SELECT COUNT(D) WHERE C >= DATE '${startWeekDate}' AND C < DATE '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LABEL COUNT(D) ''",0), 0), "N/A")`;
         //TLM
         tlmFormulas[row][0] =
             '=IF("' +
