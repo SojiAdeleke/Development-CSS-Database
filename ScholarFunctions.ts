@@ -39,6 +39,11 @@ const STANDARD_FRESHMAN_REQ = {
     frontDesk: 0
 };
 
+enum IAP_STATUS {
+    complete, 
+    incomplete,
+    exempt
+}
 interface Scholar {
     uid: string;
     lastName: string;
@@ -52,6 +57,7 @@ interface Scholar {
     menteeNum: string;
     cohort: string;
     status: number;
+    iapStatus: IAP_STATUS;
 }
 
 function getScholarInformation(scholar: string[]): Scholar {
@@ -67,8 +73,14 @@ function getScholarInformation(scholar: string[]): Scholar {
         studySessionReq: scholar[8],
         menteeNum: scholar[9],
         cohort: scholar[10],
-        status: getStatus(scholar[10], scholar[5])
+        status: getStatus(scholar[10], scholar[5]),
+        iapStatus: getIAPStatus(scholar[11])
     };
+}
+
+function getIAPStatus(iapStatus: string): IAP_STATUS{
+
+    return IAP_STATUS.complete
 }
 
 function getStatus(cohort: string, role: string): number {

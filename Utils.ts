@@ -19,7 +19,7 @@ function initScholarInfo(): Scholar[] {
       firstWeekDatabase.row,
       1,
       lastScholarRow - firstWeekDatabase.row + 1,
-      11
+      12
     ).getValues() as string[][];
   const allInfo = new Array(values.length) as [Scholar];
 
