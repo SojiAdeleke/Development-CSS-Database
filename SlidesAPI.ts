@@ -21,7 +21,14 @@
     ["2015", 1],
   ]);
 
- function checkIAP(cohortYear:string, name:string) : IAP_STATUS{//there was something that AJ suggested i add as a param but i cant remember what it was
+  
+
+  const fallSpringRegex = new Map([
+    [TIMEOFYEAR.FALL, /Fall Semester\s*([\w]+.*)+\s*Winter Term/], 
+    [TIMEOFYEAR.SPRING, /OWIEWIOF/]
+  ])
+  
+ function checkIAP(cohortYear:string, name:string) : IAP_STATUS{//have a param that has a value of wether we're checking for fall or spring
     var schoooYear = 2020;// make this var according to whatever school year it is. eg. ig in SY 2020-2021 put 2020
     //var semester = 'Fall Semester\n';
     let cohortYearInt = parseInt(cohortYear);
@@ -50,17 +57,17 @@
         let info = cdrn[1].asShape().getText().asString();
         let match = re.exec(info); 
         
-        if(match[1] != null){
+        if(match!= null && match[1] != null){
           console.log(match[1]);
-          return IAP_STATUS.complete;//true because there was text that matched, meaning that the scholar's classes were filled for the fall semester
+          return IAP_STATUS.COMPLETE;//true because there was text that matched, meaning that the scholar's classes were filled for the fall semester
         }
         console.log("IAP not completed");
-        return IAP_STATUS.incomplete;
+        return IAP_STATUS.INCOMPLETE;
       }
 
     }
     console.log("couldn't find scholar");
-    return IAP_STATUS.incomplete; 
+    return IAP_STATUS.INCOMPLETE; 
     // let pes = slides[5].getShapes();//
     // let grs = slides[5].getGroups();// the four groups are respective to freshman, sophomore, junior, and senior years
     // let cdrn = grs[0].getChildren();// choosing freshman year with 0; sophomore 1; junior 2; senior 3

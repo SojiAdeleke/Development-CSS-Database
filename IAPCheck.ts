@@ -2,6 +2,11 @@
 //then need to go to column corresponding to scholar's class standing
     //if the text after "\{currentSemester} Semester:\n" isn't "N/A" or "n/a", then we know they have done their IAP
 
+enum TIMEOFYEAR {
+    FALL, 
+    SPRING
+}
+
 function updateIAP(){
 
     const iaprow = databaseSheet.getColumnGroup(DBCol.iapcolnum, DBCol.iapcollen);// might not need this

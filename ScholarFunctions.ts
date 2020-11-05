@@ -40,9 +40,9 @@ const STANDARD_FRESHMAN_REQ = {
 };
 
 enum IAP_STATUS {
-    complete, 
-    incomplete,
-    exempt
+    COMPLETE, 
+    INCOMPLETE,
+    EXEMPT
 }
 interface Scholar {
     uid: string;
@@ -80,7 +80,7 @@ function getScholarInformation(scholar: string[]): Scholar {
 
 function getIAPStatus(iapStatus: string): IAP_STATUS{
 
-    return IAP_STATUS.complete
+    return IAP_STATUS.COMPLETE
 }
 
 function getStatus(cohort: string, role: string): number {
