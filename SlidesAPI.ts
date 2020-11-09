@@ -25,18 +25,17 @@
 
   const fallSpringRegex = new Map([
     [TIMEOFYEAR.FALL, /Fall Semester\s*([\w]+.*)+\s*Winter Term/], 
-    [TIMEOFYEAR.SPRING, /OWIEWIOF/]
+    [TIMEOFYEAR.SPRING, /Spring Semester\s*([\w]+.*)+\s*Summer Term/]
   ])
   
- function checkIAP(cohortYear:string, name:string) : IAP_STATUS{//have a param that has a value of wether we're checking for fall or spring
-    var schoooYear = 2020;// make this var according to whatever school year it is. eg. ig in SY 2020-2021 put 2020
-    //var semester = 'Fall Semester\n';
+ function checkIAP(cohortYear:string, name:string, toy: TIMEOFYEAR) : IAP_STATUS{
+    var schoooYear = startOfSemester.year;// make this var according to whatever school year it is. eg. ig in SY 2020-2021 put 2020
+
     let cohortYearInt = parseInt(cohortYear);
     let presentationId = yearToSlides.get(cohortYear);
     let startIdx = yearToStart.get(cohortYear);
     let presentation = SlidesApp.openById(presentationId);
 
-    //console.log(presentation.getName()); not needed
     let slides = presentation.getSlides();
     Logger.log('The presentation contains %s slides:', slides.length);
     
@@ -50,16 +49,14 @@
 
       let slideName = shapes[3].getText().asString();// the shape at index 3 holds the scholar's name
       if(slideName.includes(name)){
-        //use regex to get text between 'Fall Semester' and 'Winter Term' or to get text after 'Spring Semester'
-        //regex for Fall Semester: /Fall Semester\s*([\w]+.*)+\s*Winter Term/
-        //regex for Spring Semester: 
-        let re = /Fall Semester\s*([\w]+.*)+\s*Winter Term/
+        
+        let re = fallSpringRegex.get(toy)//use regex to get text between 'Fall Semester' and 'Winter Term' or to get text between 'Spring Semester' and 'Summer Term'
         let info = cdrn[1].asShape().getText().asString();
         let match = re.exec(info); 
         
         if(match!= null && match[1] != null){
           console.log(match[1]);
-          return IAP_STATUS.COMPLETE;//true because there was text that matched, meaning that the scholar's classes were filled for the fall semester
+          return IAP_STATUS.COMPLETE;//complete because there was text that matched, meaning that the scholar's classes were filled for the fall semester
         }
         console.log("IAP not completed");
         return IAP_STATUS.INCOMPLETE;
@@ -78,5 +75,5 @@
   }
 
   function main(){
-    checkIAP('2019', 'Joel Black Jr');
+    checkIAP('2019', 'Joel Black Jr', TIMEOFYEAR.FALL);
   }

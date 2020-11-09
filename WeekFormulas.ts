@@ -88,6 +88,12 @@ function updateFormulas(): void {
         type))
 }
 
+function updateIAPColumn(){
+    let statuses = updateIAP();
+    const iapcol =  databaseSheet.getRange(firstWeekDatabase.row, 11, scholarInfo.length, 1);
+    iapcol.setValues(statuses)
+}
+
 /* eslint-disable @typescript-eslint/triple-slash-reference */
 /* eslint-disable no-var */
 
@@ -109,6 +115,7 @@ function makeNewWeek(): void {
     setWeekReqs(nextWeek);
     applyWeekFormatting(nextWeek);
     protectWeek(nextWeek);
+    //updateIAPColumn();
 }
 
 //add protect for each week

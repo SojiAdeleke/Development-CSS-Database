@@ -2,7 +2,7 @@
 const holdCell = SpreadsheetApp.getActiveSpreadsheet().getRange(
   "'Master Queries'!I22"
 );
-const startOfSemester = {
+const startOfSemester = { // start of school year
   month: 8,
   day: 31,
   year: 2020,

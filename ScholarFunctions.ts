@@ -78,9 +78,16 @@ function getScholarInformation(scholar: string[]): Scholar {
     };
 }
 
-function getIAPStatus(iapStatus: string): IAP_STATUS{
-
-    return IAP_STATUS.COMPLETE
+function getIAPStatus(iapStatus: string): IAP_STATUS {
+    if (iapStatus == '✔'){
+        return IAP_STATUS.COMPLETE;
+    }
+    else if (iapStatus == 'EX'){
+        return IAP_STATUS.EXEMPT;
+    }
+    else { //'✘'
+        return IAP_STATUS.INCOMPLETE;
+    }
 }
 
 function getStatus(cohort: string, role: string): number {

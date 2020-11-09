@@ -1,32 +1,39 @@
-//first need to look at google slides doc corresponding to scholar cohort year and go to slide corresponding to scholar name
-//then need to go to column corresponding to scholar's class standing
-    //if the text after "\{currentSemester} Semester:\n" isn't "N/A" or "n/a", then we know they have done their IAP
 
 enum TIMEOFYEAR {
     FALL, 
     SPRING
 }
 
-function updateIAP(){
+function statusToString(iapStatus: IAP_STATUS): string {
+    if (iapStatus == IAP_STATUS.COMPLETE){
+        return '✔';
+    }
+    else if (iapStatus == IAP_STATUS.INCOMPLETE){
+        return '✘';
+    }
+    else {
+        return "EX";
+    }
+}
 
-    const iaprow = databaseSheet.getColumnGroup(DBCol.iapcolnum, DBCol.iapcollen);// might not need this
-    let scholar
+function updateIAP(): string[][] { // 
+    let res = new Array(scholarInfo.length) as string[][]; 
+    let date = new Date();
+    let toy = (date.getMonth() >= 7 && date.getMonth() <= 11 ? TIMEOFYEAR.FALL : TIMEOFYEAR.SPRING)
     
-    for (scholar of scholarInfo) {// accessing all scholars for first name and last name
-    //if(scholar.iap == "x")//scholar.iap not done
-        const newstatus = checkIAPSheets(scholar.lastName+" "+scholar.lastName);
-        //scholar.iap = newstatus
+    for (let i = 0; i < scholarInfo.length; i++) {
+        let scholar = scholarInfo[i];
+        if(scholar.iapStatus == IAP_STATUS.INCOMPLETE){            
+            const newstatus = checkIAP(scholar.cohort, scholar.lastName+" "+scholar.lastName, toy);
+            res[i] = new Array(statusToString(newstatus));
+        } else {
+            res[i] = new Array(statusToString(scholar.iapStatus));
+        }
+    }
 
-    }
-    /*
-    for (firstname,lastname) of (firstnames, lastnames) {
-        checkIAPSheets(firstname+" "+lastname)
-    }
-    */
+    return res;
     
 }
 
-function checkIAPSheets(scholarName: string){
-    console.log("CSS is the best")
-}
-
+// first go onto google app script and press play to print out the names of those who haven't done it
+// 
