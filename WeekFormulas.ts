@@ -210,8 +210,6 @@ function protectWeek(weekNum: number): void {
     //grab row length
     
     const proctectedSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Protection");
-    const calculateSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("");
-    //grab row length
 
     var range = getFormulaResult("=COUNTA(Protection!B1:1)");
     const procDesk = proctectedSheet.getRange(1, 3, 1, range-1).getValues() as string[][];
@@ -225,24 +223,48 @@ function protectWeek(weekNum: number): void {
     range = getFormulaResult("=COUNTA(Protection!B4:4)");
     const procDbase = proctectedSheet.getRange(4, 3, 1, range-1).getValues() as string[][];
 
-    semProtection
-        .removeEditors(sheetEditors)
-        .addEditors(procSeminar[0]);
-    ssProtection
-        .removeEditors(sheetEditors)
-        .addEditors(procStudy[0]);
-    fdProtection
-        .removeEditors(sheetEditors)
-        .addEditors(procDesk[0]);
+   /* procDesk.concat(databaseAdmin);
+    procStudy.concat(databaseAdmin);
+    procSeminar.concat(databaseAdmin);
+    */
+
+    semProtection.addEditors([
+...databaseAdmin,
+...procSeminar[0]
+]);
+    ssProtection.addEditors([
+...databaseAdmin,
+...procStudy[0]
+]);
+    fdProtection.addEditors([
+...databaseAdmin,
+...procDesk[0]
+]);
 
 
-    wahfProtection.removeEditors(sheetEditors).addEditors(procDbase[0]);
+    wahfProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0]
+]);
 
-    zoomProtection.removeEditors(sheetEditors).addEditors(procDbase[0]);
-    tlmProtection.removeEditors(sheetEditors).addEditors(procDbase[0]);
-    gamProtection
-        .removeEditors(sheetEditors)
-        .addEditors(procDbase[0].concat(gaInfo));
-    mcfProtection.removeEditors(sheetEditors).addEditors(procDbase[0]);
-    wplProtection.removeEditors(sheetEditors).addEditors(procDbase[0]);
+    zoomProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0]
+]);
+    tlmProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0]
+]);
+    gamProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0].concat(gaInfo)
+]);
+    mcfProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0]
+]);
+    wplProtection.addEditors([
+        ...databaseAdmin,
+...procDbase[0]
+]);
 }
