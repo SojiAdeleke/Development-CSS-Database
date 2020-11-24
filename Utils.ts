@@ -2,12 +2,12 @@
 const holdCell = SpreadsheetApp.getActiveSpreadsheet().getRange(
   "'Master Queries'!I22"
 );
-const startOfSemester = {
+const SCHOOL_YEAR_START = {
   month: 8,
   day: 31,
   year: 2020,
 };
-const startOfSemesterFormula = `DATE(${startOfSemester.year},${startOfSemester.month},${startOfSemester.day})`;
+const startOfSemesterFormula = `DATE(${SCHOOL_YEAR_START.year},${SCHOOL_YEAR_START.month},${SCHOOL_YEAR_START.day})`;
 const databaseSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Database") || SpreadsheetApp.getActiveSpreadsheet().getSheets()[1];
 const lastScholarRow = databaseSheet.getLastRow();
 const firstWeekDatabase = { row: 4, column: 13 };
@@ -73,7 +73,7 @@ function getTutorNameFormula(uid: string): string {
   }
   else
     return (
-      `=IFERROR(VLOOKUP(${uid},TutoringDatabase!$A$2:$C$${tutoringDatabase.getLastRow()} ,2,FALSE),"Hours not input")`
+      `=IFERROR(VLOOKUP(${uid},TutoringDatabase!$A$2:50 ,2,FALSE),"Hours not input")`
     );
 }
 

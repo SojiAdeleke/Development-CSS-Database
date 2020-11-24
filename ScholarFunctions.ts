@@ -72,10 +72,10 @@ function getScholarInformation(scholar: string[]): Scholar {
 }
 
 function getStatus(cohort: string, role: string): number {
-    if (startOfSemester.year - parseInt(cohort) >= 2 && role == "Scholar") {
+    if (SCHOOL_YEAR_START.year - parseInt(cohort) >= 2 && role == "Scholar") {
         return SCHOLAR_TYPES.UPPER;
     }
-    else if (startOfSemester.year - parseInt(cohort) == 1 && role == "Scholar") {
+    else if (SCHOOL_YEAR_START.year - parseInt(cohort) == 1 && role == "Scholar") {
         return SCHOLAR_TYPES.SOPHOMORE;
     }
     else if (STANDARD_LEADERSHIP_REQ.types.includes(role)) {
