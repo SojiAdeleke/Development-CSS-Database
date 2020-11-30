@@ -70,7 +70,7 @@
     */
   }
 
-  function checkIAPBySlides(cohortYear:number, timeOfYear: TIMEOFYEAR, statusArr :IAP_STATUS[]){
+  function checkIAPBySlides(cohortYear:number, timeOfYear: TIMEOFYEAR, statusArr :IAP_STATUS[]) : void{
     var schoooYear = startOfSemester.year;// make this var according to whatever school year it is. eg. ig in SY 2020-2021 put 2020
     let presentationId = yearToSlides.get(cohortYear);
     let startIdx = yearToStart.get(cohortYear);
@@ -85,14 +85,43 @@
       let groupnum = (schoooYear-cohortYear < 3 ? schoooYear-cohortYear : 3);
       let cdrn = groups[groupnum].getChildren();// the four groups are respective to freshman, sophomore, junior, and senior years and hold the classes taken
       let slideName = shapes[3].getText().asString();// the shape at index 3 holds the scholar's name
-      
+      let done = 0;//to be commented
       for(let j = 0; j < scholarInfo.length; j++){//going through each student to find the student that matches the current slide
-        if(scholarInfo[j].cohort)
+        if(parseInt(scholarInfo[j].cohort) != cohortYear /* continue if the current scholar in scholarInfo doesn't have the same cohort year */
+        || !slideName.includes(scholarInfo[j].firstName + " " + scholarInfo[j].lastName) /* continue if the current scholar in scholarInfo doesn't have the same name */
+        && statusArr[j] != IAP_STATUS.INCOMPLETE){ /* continue if the current scholar has a completed or exempt IAP status */
+          continue; 
+        }
+        
+        let re = fallSpringRegex.get(timeOfYear)//use regex to get text between 'Fall Semester' and 'Winter Term' or to get text between 'Spring Semester' and 'Summer Term'
+        let info = cdrn[1].asShape().getText().asString();
+        let match = re.exec(info); 
+        
+        if(match!= null && match[1] != null){
+          console.log("IAP complete");//console.log(match[1]);
+          statusArr[j] = IAP_STATUS.COMPLETE;//complete because there was text that matched, meaning that the scholar's classes were filled for the fall semester
+        } else {// code in this else isn't necisary because if the IAP is incomplete, it will already be incomplete in statusArr
+          console.log("IAP not completed");
+          statusArr[j] = IAP_STATUS.INCOMPLETE;
+        }
+        done = 1;// to be commented
+        break;
+
       }
+
+      if(done == 0){// to be commented
+        console.log("student on slide not found in scholarInfo")
+      }
+
     }
 
   }
 
   function main(){
-    checkIAP(2019, 'Joel Black Jr', TIMEOFYEAR.FALL);
+    //checkIAP(2019, 'Joel Black Jr', TIMEOFYEAR.FALL);
+    let statusArr = new Array(scholarInfo.length) as IAP_STATUS[];
+    for(let i = 0; i < scholarInfo.length; i++){
+        statusArr[i] = scholarInfo[i].iapStatus;
+    }
+    checkIAPBySlides(2019, TIMEOFYEAR.FALL, statusArr);
   }

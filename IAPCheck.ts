@@ -24,7 +24,7 @@ function updateIAP(): string[][] { //
     for (let i = 0; i < scholarInfo.length; i++) {
         let scholar = scholarInfo[i];
         if(scholar.iapStatus == IAP_STATUS.INCOMPLETE){            
-            const newstatus = checkIAP(scholar.cohort, scholar.firstName+" "+scholar.lastName, timeOfYear);
+            const newstatus = checkIAP(parseInt(scholar.cohort), scholar.firstName+" "+scholar.lastName, timeOfYear);
             res[i] = new Array(statusToString(newstatus));
         } else {
             res[i] = new Array(statusToString(scholar.iapStatus));
