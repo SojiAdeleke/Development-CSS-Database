@@ -186,7 +186,7 @@ function test(): void{
   }
 
 function protectWeek(weekNum: number): void {
-    const wahfProtection = getColumn(weekNum, 0)
+    var wahfProtection = getColumn(weekNum, 0)
         .protect()
         .setDescription("WAHF PROTECTION"),
         semProtection = getColumn(weekNum, 1).protect().setDescription("SEMINAR PROTECTION"),
@@ -205,29 +205,27 @@ function protectWeek(weekNum: number): void {
             .setDescription("GRAD MEETING PROTECTION"),
         mcfProtection = getColumn(weekNum, 7).protect().setDescription("MCF PROTECTION"),
         wplProtection = getColumn(weekNum, 8).protect().setDescription("WPL PROTECTION");
-    const sheetEditors = wahfProtection.getEditors();
 
     //grab row length
     
-    const proctectedSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Protection");
+    var proctectedSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Protection");
 
     var range = getFormulaResult("=COUNTA(Protection!B1:1)");
-    const procDesk = proctectedSheet.getRange(1, 3, 1, range-1).getValues() as string[][];
+    var procDesk = proctectedSheet.getRange(1, 2, 1, range).getValues() as string[][];
 
     range = getFormulaResult("=COUNTA(Protection!B2:2)");
-    const procStudy = proctectedSheet.getRange(2,  3, 1, range-1).getValues() as string[][];
+    var procStudy = proctectedSheet.getRange(2,  2, 1, range).getValues() as string[][];
 
     range = getFormulaResult("=COUNTA(Protection!B3:3)");
-    const procSeminar = proctectedSheet.getRange(3, 3, 1, range-1).getValues() as string[][];
+    var procSeminar = proctectedSheet.getRange(3, 2, 1, range).getValues() as string[][];
 
     range = getFormulaResult("=COUNTA(Protection!B4:4)");
-    const procDbase = proctectedSheet.getRange(4, 3, 1, range-1).getValues() as string[][];
+    var procDbase = proctectedSheet.getRange(4, 2, 1, range).getValues() as string[][];
 
-   /* procDesk.concat(databaseAdmin);
-    procStudy.concat(databaseAdmin);
-    procSeminar.concat(databaseAdmin);
-    */
-
+    procDesk[0] = procDesk[0].concat(databaseAdmin);
+    procStudy[0] = procStudy[0].concat(databaseAdmin);
+    procSeminar[0] = procSeminar[0].concat(databaseAdmin);
+    
     semProtection.addEditors([
 ...databaseAdmin,
 ...procSeminar[0]
@@ -268,3 +266,37 @@ function protectWeek(weekNum: number): void {
 ...procDbase[0]
 ]);
 }
+
+function clearEntries(weekNum: number) :void{
+    var wahfProtection = getColumn(weekNum, 0)
+        .protect()
+        .setDescription("WAHF PROTECTION"),
+        semProtection = getColumn(weekNum, 1).protect().setDescription("SEMINAR PROTECTION"),
+        ssProtection = getColumn(weekNum, 2)
+            .protect()
+            .setDescription("STUDY SESSION PROTECTION"),
+        fdProtection = getColumn(weekNum, 3)
+            .protect()
+            .setDescription("FRONT DESK PROTECTION"),
+        zoomProtection = getColumn(weekNum, 4).protect().setDescription("ZOOM PROTECTION"),
+        tlmProtection = getColumn(weekNum, 5)
+            .protect()
+            .setDescription("TEAM LEADER MEETING PROTECTION"),
+        gamProtection = getColumn(weekNum, 6)
+            .protect()
+            .setDescription("GRAD MEETING PROTECTION"),
+        mcfProtection = getColumn(weekNum, 7).protect().setDescription("MCF PROTECTION"),
+        wplProtection = getColumn(weekNum, 8).protect().setDescription("WPL PROTECTION");
+        const sheetEditors = wahfProtection.getEditors();
+
+        wahfProtection.removeEditors(sheetEditors);
+        semProtection.removeEditors(sheetEditors);
+        ssProtection.removeEditors(sheetEditors);
+        fdProtection.removeEditors(sheetEditors)
+        zoomProtection.removeEditors(sheetEditors);
+        tlmProtection.removeEditors(sheetEditors);
+        gamProtection.removeEditors(sheetEditors);
+        mcfProtection.removeEditors(sheetEditors);
+        wplProtection.removeEditors(sheetEditors);
+}
+

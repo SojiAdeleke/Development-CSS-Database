@@ -13,6 +13,7 @@ function onEdit(e: GoogleAppsScript.Events.SheetsOnEdit): void {
   else if (sheetName == "L4. Traffic") editTraffic(e);
   else if (sheetName == "L5. RRF") editRRF(e);
   else if (sheetName == "L6. Tutor Report Log") editTutor(e);
+  else if (sheetName == "Protection") editProc(e);
 }
 
 function editMemo(e: GoogleAppsScript.Events.SheetsOnEdit): void {
@@ -45,4 +46,8 @@ function editRRF(e: GoogleAppsScript.Events.SheetsOnEdit): void {
 
 function editTutor(e: GoogleAppsScript.Events.SheetsOnEdit): void {
   Logger.log(e.source.getActiveSheet().getName());
+}
+
+function editProc(e:GoogleAppsScript.Events.SheetsOnEdit): void{
+  clearEntries(getWeekNum());
 }
