@@ -103,13 +103,13 @@ function applyNumberCheck(
       ""
     ];
     const scholar = scholarInfo[row];
-    const minimumZoomVisits = 2;
+    const MIN_ZOOM_VISITS = 2;
     let scholarReq = null;
 
     if (type == WEEK_INFO.STUDY_SESSION)
       scholarReq = scholar.studySessionReq;
     else if (type == WEEK_INFO.FRONT_DESK) scholarReq = scholar.frontDeskReq;
-    else if (type == WEEK_INFO.ZOOM) scholarReq = minimumZoomVisits;
+    else if (type == WEEK_INFO.ZOOM) scholarReq = MIN_ZOOM_VISITS;
     else scholarReq = scholar.menteeNum;
 
     if (values[row][FIRST_INDEX] == 0 || values[row][FIRST_INDEX] == "") {

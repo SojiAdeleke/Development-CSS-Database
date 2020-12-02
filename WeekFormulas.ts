@@ -23,15 +23,15 @@ function setWeekFormulas(weekNum: number): void {
         const scholar = scholarInfo[row];
 
         //WAHF
-        wahfFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${(SCHOOL_YEAR_START.year - 2)}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('L1. WAHF'!$C$3:$D${MAX_ROW}, "SELECT C WHERE C >= DATE '${startWeekDate}' AND C < DATE '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LIMIT 1"), "Not found"), "N/A")`;
+        wahfFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${SCHOOL_YEAR_START.year - 2}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('L1. WAHF'!$C$3:$D${MAX_ROW}, "SELECT C WHERE C >= TIMESTAMP '${startWeekDate}' AND C < TIMESTAMP '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LIMIT 1"), "Not found"), "N/A")`;
         //ZOOM
-        zoomFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${(SCHOOL_YEAR_START.year - 2)}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('Zoom Room Sign-In'!$C$3:$D$${MAX_ROW}, "SELECT COUNT(D) WHERE C >= DATE '${startWeekDate}' AND C < DATE '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LABEL COUNT(D) ''",0), 0), "N/A")`;
+        zoomFormulas[row][0] = `=IF(OR(${scholar.cohort} > ${SCHOOL_YEAR_START.year - 2}, "${scholar.role}" <> "Scholar"), IFERROR(QUERY('Zoom Room Sign-In'!$C$3:$D$${MAX_ROW}, "SELECT COUNT(D) WHERE C >= TIMESTAMP '${startWeekDate}' AND C < TIMESTAMP '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LABEL COUNT(D) ''",0), 0), "N/A")`;
         //TLM
         tlmFormulas[row][0] = `=IF("${scholar.teamLeader}" <>"N/A", IFERROR(IF(QUERY('L2. MCF'!$A$3:${MAX_ROW}, "SELECT COUNT(F) WHERE E >= TIMESTAMP '${startWeekDate}' AND E < TIMESTAMP '${endWeekDate}' AND G CONTAINS '${scholar.uid}' LABEL COUNT(F) ''")<>0, "✔", "✘"), "✘"), "N/A")`;
         //MCF
         mcfFormulas[row][0] = `=IF("${scholar.role}"="Team Leader",IFERROR(QUERY('L2. MCF'!$A$3:${MAX_ROW}, "SELECT COUNT(F) WHERE E >= TIMESTAMP '${startWeekDate}' AND E < TIMESTAMP '${endWeekDate}' AND F CONTAINS '${scholar.uid}' LABEL COUNT(F) ''",0),0),"N/A")`;
         //WPL
-        wplFormulas[row][0] = `=IF("${scholar.role}" <> "Scholar", IFERROR(QUERY('L3. WPL'!$C$3:${MAX_ROW}, "SELECT C WHERE C > DATE \'${startWeekDate}' AND C <= DATE '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LIMIT 1"),"Not found"),"N/A")`;
+        wplFormulas[row][0] = `=IF("${scholar.role}" <> "Scholar", IFERROR(QUERY('L3. WPL'!$C$3:${MAX_ROW}, "SELECT C WHERE C > TIMESTAMP '${startWeekDate}' AND C <= TIMESTAMP '${endWeekDate}' AND D CONTAINS '${scholar.uid}' LIMIT 1"),"Not found"),"N/A")`;
     }
     //set wahf
     const ranges = [
@@ -62,7 +62,6 @@ function updateFormulas(): void {
 }
 
 /* eslint-disable @typescript-eslint/triple-slash-reference */
-/* eslint-disable no-var */
 
 const weekTheme = {
     odd: {
@@ -84,7 +83,6 @@ function makeNewWeek(): void {
     protectWeek(nextWeek);
 }
 
-//add protect for each week
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function createWeek(weekNum: number): void {
     const isOdd = weekNum % 2 == 1;
@@ -120,10 +118,10 @@ function createWeek(weekNum: number): void {
     databaseSheet.getRange(1, startOfNewWeekCol).setValue(`WEEK ${weekNum}`);
     databaseSheet
         .getRange(2, startOfNewWeekCol + 2)
-        .setFormula(`=TEXT(K1+${(weekNum - 1) * 7},"YYYY-MM-DD")`);
+        .setFormula(`=TEXT(K1+${(weekNum - 1) * 7},"YYYY-MM-DD 0:00:00")`);
     databaseSheet
         .getRange(2, startOfNewWeekCol + 6)
-        .setValue(`=TEXT(K1+${(weekNum - 1) * 7 + 6},"YYYY-MM-DD")`);
+        .setValue(`=TEXT(K1+${(weekNum - 1) * 7 + 6},"YYYY-MM-DD 23:59:59")`);
 }
 
 function setWeekReqs(weekNum: number): void {
