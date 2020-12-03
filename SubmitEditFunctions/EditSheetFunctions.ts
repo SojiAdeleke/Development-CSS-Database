@@ -50,4 +50,5 @@ function editTutor(e: GoogleAppsScript.Events.SheetsOnEdit): void {
 
 function editProc(e:GoogleAppsScript.Events.SheetsOnEdit): void{
   clearEntries(getWeekNum());
+  protectWeek(getWeekNum());
 }
