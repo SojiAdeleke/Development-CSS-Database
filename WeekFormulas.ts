@@ -75,7 +75,7 @@ const weekTheme = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function makeNewWeek(): void {
-    const nextWeek = (databaseSheet.getLastColumn() - 12) / 9 + 1;
+    const nextWeek = getWeekNum()+1;
 
     createWeek(nextWeek);
     setWeekReqs(nextWeek);
