@@ -129,6 +129,11 @@ function applyNumberCheck(
     .setFontWeight("bold");
 }
 
+function setIAPFormatting(){
+  const iapcol =  databaseSheet.getRange(firstWeekDatabase.row, 12, scholarInfo.length, 1);
+  applyIAPFormatting(iapcol);
+}
+
 //contains week information from WAHF to WPL
 function applyIAPFormatting(iapRange: GoogleAppsScript.Spreadsheet.Range): void {
   const rules = databaseSheet.getConditionalFormatRules();
