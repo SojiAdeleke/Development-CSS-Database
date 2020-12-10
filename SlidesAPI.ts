@@ -21,13 +21,19 @@
     [2015, 1],
   ]);
 
-  
+  /*
 
   const fallSpringRegex = new Map([
     [TIMEOFYEAR.FALL, /Fall Semester\s*([\w]+.*)+\s*Winter Term/], 
     [TIMEOFYEAR.SPRING, /Spring Semester\s*([\w]+.*)+\s*Summer Term/]
   ])
-  
+  */
+
+  const fallSpringRegex = new Map([
+    [TIMEOFYEAR.FALL, /Fall Semester\s*(N\/A)\s*Winter Term/], 
+    [TIMEOFYEAR.SPRING, /Spring Semester\s*(N\/A)\s*Summer Term/]
+  ])
+
  function checkIAP(cohortYear:number, name:string, timeOfYear: TIMEOFYEAR) : IAP_STATUS{
     var schoooYear = startOfSemester.year;// make this var according to whatever school year it is. eg. ig in SY 2020-2021 put 2020
 
@@ -53,7 +59,7 @@
         let info = cdrn[1].asShape().getText().asString();
         let match = re.exec(info); 
         
-        if(match!= null && match[1] != null){
+        if(match== null){
           console.log(match[1]);
           return IAP_STATUS.COMPLETE;//complete because there was text that matched, meaning that the scholar's classes were filled for the fall semester
         }
@@ -79,34 +85,33 @@
     Logger.log('The presentation contains %s slides:', slides.length);
     console.log("slides len: " + slides.length);
 
-    for(let i = 0; i < slides.length; i++){//going through each slide
+    for(let i = startIdx; i < slides.length; i++){//going through each slide
+      //console.log("slide Number: " + i)
       let shapes = slides[i].getShapes();// the important shape will hold the name of the scholar
       let groups = slides[i].getGroups();
       let groupnum = (schoooYear-cohortYear < 3 ? schoooYear-cohortYear : 3);
       let cdrn = groups[groupnum].getChildren();// the four groups are respective to freshman, sophomore, junior, and senior years and hold the classes taken
       let slideName = shapes[3].getText().asString();// the shape at index 3 holds the scholar's name
       let done = 0;//to be commented
+      
       for(let j = 0; j < scholarInfo.length; j++){//going through each student to find the student that matches the current slide
         if(parseInt(scholarInfo[j].cohort) != cohortYear /* continue if the current scholar in scholarInfo doesn't have the same cohort year */
         || !slideName.includes(scholarInfo[j].firstName + " " + scholarInfo[j].lastName) /* continue if the current scholar in scholarInfo doesn't have the same name */
         && statusArr[j] != IAP_STATUS.INCOMPLETE){ /* continue if the current scholar has a completed or exempt IAP status */
           continue; 
         }
-        
         let re = fallSpringRegex.get(timeOfYear)//use regex to get text between 'Fall Semester' and 'Winter Term' or to get text between 'Spring Semester' and 'Summer Term'
         let info = cdrn[1].asShape().getText().asString();
         let match = re.exec(info); 
-        
-        if(match!= null && match[1] != null){
-          console.log("IAP complete");//console.log(match[1]);
+        if(match== null){
+          //console.log("IAP complete");//console.log(match[1]);
           statusArr[j] = IAP_STATUS.COMPLETE;//complete because there was text that matched, meaning that the scholar's classes were filled for the fall semester
         } else {// code in this else isn't necisary because if the IAP is incomplete, it will already be incomplete in statusArr
-          console.log("IAP not completed");
+          //console.log("IAP not completed");
           statusArr[j] = IAP_STATUS.INCOMPLETE;
         }
         done = 1;// to be commented
         break;
-
       }
 
       if(done == 0){// to be commented
@@ -123,5 +128,5 @@
     for(let i = 0; i < scholarInfo.length; i++){
         statusArr[i] = scholarInfo[i].iapStatus;
     }
-    checkIAPBySlides(2019, TIMEOFYEAR.FALL, statusArr);
+    checkIAPBySlides(2020, TIMEOFYEAR.FALL, statusArr);
   }

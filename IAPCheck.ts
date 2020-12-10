@@ -46,7 +46,7 @@ function updateIAPBySlides(): string[][] {
     let timeOfYear = (date.getMonth() >= 7 && date.getMonth() <= 11 ? TIMEOFYEAR.FALL : TIMEOFYEAR.SPRING);
     var schoolYear = startOfSemester.year;
 
-    for(let year = schoolYear; year > year-4; year--){
+    for(let year = schoolYear; year > schoolYear-4; year--){
         checkIAPBySlides(year, timeOfYear, statusArr);//updating statusArr
     }
 

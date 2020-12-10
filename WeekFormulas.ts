@@ -89,8 +89,8 @@ function updateFormulas(): void {
 }
 
 function updateIAPColumn(){
-    let statuses = updateIAP();
-    const iapcol =  databaseSheet.getRange(firstWeekDatabase.row, 11, scholarInfo.length, 1);
+    let statuses = updateIAPBySlides();
+    const iapcol =  databaseSheet.getRange(firstWeekDatabase.row, 12, scholarInfo.length, 1);
     iapcol.setValues(statuses)
 }
 
