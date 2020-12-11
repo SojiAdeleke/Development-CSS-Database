@@ -16,25 +16,6 @@ function statusToString(iapStatus: IAP_STATUS): string {
     }
 }
 
-function updateIAP(): string[][] { // 
-    let res = new Array(scholarInfo.length) as string[][]; 
-    let date = new Date();
-    let timeOfYear = (date.getMonth() >= 7 && date.getMonth() <= 11 ? TIMEOFYEAR.FALL : TIMEOFYEAR.SPRING)
-    
-    for (let i = 0; i < scholarInfo.length; i++) {
-        let scholar = scholarInfo[i];
-        if(scholar.iapStatus == IAP_STATUS.INCOMPLETE){            
-            const newstatus = checkIAP(parseInt(scholar.cohort), scholar.firstName+" "+scholar.lastName, timeOfYear);
-            res[i] = new Array(statusToString(newstatus));
-        } else {
-            res[i] = new Array(statusToString(scholar.iapStatus));
-        }
-    }
-
-    return res;
-    
-}
-
 function updateIAPBySlides(): string[][] {
     let statusArr = new Array(scholarInfo.length) as IAP_STATUS[];
     for(let i = 0; i < scholarInfo.length; i++){
@@ -50,11 +31,8 @@ function updateIAPBySlides(): string[][] {
         checkIAPBySlides(year, timeOfYear, statusArr);//updating statusArr
     }
 
-    for(let i = 0; i < scholarInfo.length; i++){//puting each status into res as a string array
+    for(let i = 0; i < scholarInfo.length; i++){
         res[i] = new Array(statusToString(statusArr[i]));
     }
     return res; 
 }
-
-// first go onto google app script and press play to print out the names of those who haven't done it
-// 
