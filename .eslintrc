@@ -32,6 +32,10 @@
     "@typescript-eslint/no-unsafe-call": "error",
     "@typescript-eslint/no-explicit-any": "error",
     "array-element-newline": ["error", "always"],
-    "array-bracket-newline": ["error", "always"]
+    "array-bracket-newline": ["error", "always"],
+    "prefer-const": ["error", {
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
+  }]
   }
 }
