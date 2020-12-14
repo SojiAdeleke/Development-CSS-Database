@@ -4,7 +4,7 @@ enum TIMEOFYEAR {
     SPRING
 }
 
-function statusToString(iapStatus: IAP_STATUS): string {
+function iapStatusToString(iapStatus: IAP_STATUS): string {
     if (iapStatus == IAP_STATUS.COMPLETE){
         return '✔';
     }
@@ -24,8 +24,8 @@ function updateIAPBySlides(): string[][] {
 
     let res = new Array(scholarInfo.length) as string[][]; 
     let date = new Date();
-    let timeOfYear = (date.getMonth() >= 7 && date.getMonth() <= 11 ? TIMEOFYEAR.FALL : TIMEOFYEAR.SPRING);
-    var schoolYear = startOfSemester.year;
+    let timeOfYear = (date.getMonth() >= 7  ? TIMEOFYEAR.FALL : TIMEOFYEAR.SPRING);
+    const schoolYear = startOfSemester.year;
 
     for(let year = schoolYear; year > schoolYear-4; year--){
         checkIAPBySlides(year, timeOfYear, statusArr);//updating statusArr
