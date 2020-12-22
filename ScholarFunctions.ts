@@ -40,9 +40,9 @@ const STANDARD_FRESHMAN_REQ = {
 };
 
 enum IAP_STATUS {
-    COMPLETE, 
-    INCOMPLETE,
-    EXEMPT
+    COMPLETE = '✔', 
+    INCOMPLETE = '✘',
+    EXEMPT = 'EX'
 }
 interface Scholar {
     uid: string;
