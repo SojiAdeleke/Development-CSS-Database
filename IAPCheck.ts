@@ -61,13 +61,13 @@ const yearToSlides = new Map([
       let delLater = 0;
       for(let j = 0; j < scholarInfo.length; j++){//going through each student to find the student that matches the current slide
         if(parseInt(scholarInfo[j].cohort) != cohortYear 
-        || !slideName.toLowerCase().includes(scholarInfo[j].firstName.toLowerCase().trim())
-        || !slideName.toLowerCase().includes(scholarInfo[j].lastName.toLowerCase().trim())
+        || !slideName.toLowerCase().includes(removeParens(scholarInfo[j].firstName).toLowerCase())
+        || !slideName.toLowerCase().includes(removeParens(scholarInfo[j].lastName).toLowerCase())
         || statusArr[j] != IAP_STATUS.INCOMPLETE){ 
             if(slideName.includes(scholarInfo[j].firstName.trim()) 
                   && slideName.includes(scholarInfo[j].lastName.trim())
                   && statusArr[j] != IAP_STATUS.INCOMPLETE){
-                    delLater = 1
+                    delLater = 1;
                     console.log("good good food food food")
                   }
           continue; 
@@ -98,6 +98,17 @@ const yearToSlides = new Map([
     }
     console.log("cnt: " + delLaterCnt);
   }
+
+  function removeParens(str: String){
+    let lpi, rpi; 
+    if((lpi = str.indexOf("(")) >= 0 && (rpi = str.indexOf(")")) > lpi ){
+        let substring = str.substring(lpi, rpi+1);
+        str = str.replace(substring, "");
+        return str.trim();
+    } else {
+        return str.trim();
+    }
+    }
 
   function main(){
     console.log("Scholar Info len: " + scholarInfo.length);
