@@ -59,7 +59,7 @@ npm install -S eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 
 ```bash
 
-echo  "{\"scriptId\":\"1SPICFDBbWl8HMD89nRrC_yowr1KThi8UdYsEluSiVwvQR-0cVzoUBNxR\"}" > .clasp.json
+echo  "{\"scriptId\":\"19VGR8O_ErPukBEeEClEFVWWHzZKW3O_Sqd7xvJ7MRmqN4DEqgiB_bTAl\"}" > .clasp.json
 
 ```
 
