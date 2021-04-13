@@ -11,9 +11,9 @@ The Development CSS Database is a testing code base for the real CSS Database ho
 
   
 
-1. You should have access to the [Development CSS Database](https://docs.google.com/spreadsheets/d/1Nz9a3dPVS-0fnT7pncShDmAQgvi7hyoBnOvwuBxpDx8/edit#gid=0)
+1. You should have access to the [Development CSS Database](https://docs.google.com/spreadsheets/d/1AGp2dtyScGenCbyVtTZsuFy4fkk7G0o2jWw5gUEJ2WA/edit#gid=1426542508)
 
-2. You should have access to the [Development CSS Database Script](https://script.google.com/a/umd.edu/d/19VGR8O_ErPukBEeEClEFVWWHzZKW3O_Sqd7xvJ7MRmqN4DEqgiB_bTAl/edit) on Google Apps Script
+2. You should have access to the [Development CSS Database Script](https://script.google.com/u/3/home/projects/1xcIFkNaWeFPA-PXmlKQiLP7jOIi4acAt5Bc685fc2KECXreaOrdd8liA/edit) on Google Apps Script
 
 3. Access to the Development CSS Database on Git
 
