@@ -45,8 +45,8 @@ function setWeekFormulas(weekNum: number): void {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function updateFormulas(): void {
-    const thisWeekNum = getWeekNum();
+function updateFormulas(weekNum: number): void {
+    const thisWeekNum = weekNum;
 
     setWeekFormulas(thisWeekNum);
     applyWeekFormatting(thisWeekNum);
@@ -81,6 +81,7 @@ function makeNewWeek(): void {
     setWeekReqs(nextWeek);
     applyWeekFormatting(nextWeek);
     protectWeek(nextWeek);
+    updateFormulas(nextWeek);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

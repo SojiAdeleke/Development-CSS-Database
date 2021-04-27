@@ -227,8 +227,8 @@ function applyWeekFormatting(weekNum: number): void {
     .build();
   const semPickRule = SpreadsheetApp.newDataValidation()
     .requireValueInList([
-      "✘",
-      "✔",
+      "N",
+      "Y",
       "L",
       "EX",
       "N/A"
